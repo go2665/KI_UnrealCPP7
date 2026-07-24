@@ -8,8 +8,13 @@ public class KI_UnrealCPPEditorTarget : TargetRules
 	public KI_UnrealCPPEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
-		DefaultBuildSettings = BuildSettingsVersion.V5;
 
-		ExtraModuleNames.AddRange( new string[] { "KI_UnrealCPP" } );
+        DefaultBuildSettings = BuildSettingsVersion.V6;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
+
+
+        ExtraModuleNames.AddRange( new string[] { "KI_UnrealCPP" } );
+
+        bOverrideBuildEnvironment = true;
 	}
 }

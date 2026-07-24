@@ -279,8 +279,17 @@ void AActionCharacter::OnMoveInput(const FInputActionValue& InValue)
 	//UE_LOG(LogTemp, Log, TEXT("Dir : (%s)"), *inputDirection.ToString());
 	FVector moveDirection(inputDirection.Y, inputDirection.X, 0.0f);
 
-	FQuat controlYawRotation = FQuat(FRotator(0, GetControlRotation().Yaw, 0));	// 컨트롤러의 Yaw회전을 따로 뽑아와서
-	moveDirection = controlYawRotation.RotateVector(moveDirection);	// 이동 방향에 적용
+	//FQuat controlYawRotation = FQuat(FRotator(0, GetControlRotation().Yaw, 0));	// 컨트롤러의 Yaw회전을 따로 뽑아와서
+	//moveDirection = controlYawRotation.RotateVector(moveDirection);	// 이동 방향에 적용
+
+	// Yaw 각도를 라디안으로 변환
+	float YawRad = FMath::DegreesToRadians(GetControlRotation().Yaw);
+
+	// Z축(UpVector)을 기준으로 회전하는 쿼터니언을 직접 생성
+	FQuat controlYawRotation(FVector::UpVector, YawRad);
+
+	// 이동 방향에 적용
+	moveDirection = controlYawRotation.RotateVector(moveDirection);
 	
 	AddMovementInput(moveDirection);
 	
