@@ -44,6 +44,7 @@ void AMazeActor::OnPostMapGenerate()
 	if (navSystem)
 	{
 		navSystem->Build();	// 수동으로 네비게이션 매시 생성하게 하기
+		navSystem->SetNavigationAutoUpdateEnabled(true, navSystem);  // 자동 업데이트 다시 활성화(안해도 상관없음)
 	}
 }
 
