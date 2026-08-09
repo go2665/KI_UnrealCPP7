@@ -46,10 +46,10 @@ public:
 	inline void AddPath(EDirectionType InAddedPath) { Path |= InAddedPath; }
 
 	// 특정 방향이 길인지 확인하는 함수
-	inline bool IsPath(EDirectionType InCheck) { return (Path & InCheck) == InCheck; }
+	inline bool IsPath(EDirectionType InCheck) const { return (Path & InCheck) == InCheck; }
 	//inline bool IsPath(EDirectionType InCheck) { return EnumHasAnyFlags(Path, InCheck); }
 
 	// 특정 방향이 벽인지 확인하는 함수
-	inline bool IsWall(EDirectionType InCheck) { return !IsPath(InCheck); }
+	inline bool IsWall(EDirectionType InCheck) const { return !IsPath(InCheck); }
 	
 };

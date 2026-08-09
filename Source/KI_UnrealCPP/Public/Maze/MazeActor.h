@@ -7,6 +7,7 @@
 #include "MazeActor.generated.h"
 
 class FMazeData;
+struct FCellData;
 //-------------------- HISM 컴포넌트 전방 선언 --------------------
 class UHierarchicalInstancedStaticMeshComponent;
 //-----------------------------------------------------------------
@@ -38,12 +39,11 @@ protected:
 private:	
 	TUniquePtr<FMazeData> MakeMazeData();
 	void SpawnCells(FMazeData* Maze);
-	//void ClearMazeData(FMazeData*& Maze);
 
 	//-------------------- HISM 생성 및 초기화 함수 --------------------
 	void BuildMazeHISM(FMazeData* Maze);
 	void ClearHISMInstances();
-	void MakeCellHISM(struct FCellData* Cell, const FVector& CellLocation);
+	void MakeCellHISM(const FCellData* Cell, const FVector& CellLocation);
 	//------------------------------------------------------------------
 
 protected:

@@ -54,7 +54,7 @@ void AMazeActor::GenerateMaze()
 		SpawnCells(maze.Get());
 	}
 	//--------------------------------------------------------------------
-	//ClearMazeData(maze);
+	
 	OnPostMapGenerate();
 }
 
@@ -109,7 +109,7 @@ void AMazeActor::OnPostMapGenerate()
 TUniquePtr<FMazeData> AMazeActor::MakeMazeData()
 {
 	TUniquePtr<FMazeData> Maze = MakeUnique<FMazeData>();
-	Maze->MakeMaze(Width, Height, RandomSeed);
+	Maze->MakeMaze(static_cast<uint8>(Width), static_cast<uint8>(Height), RandomSeed);
 
 	return Maze;
 }
@@ -153,13 +153,6 @@ void AMazeActor::SpawnCells(FMazeData* Maze)
 	}
 }
 
-//void AMazeActor::ClearMazeData(FMazeData*& Maze)
-//{
-//	Maze->ClearMaze();
-//	delete Maze;
-//	Maze = nullptr;
-//}
-
 //-------------------- HISM 생성 및 인스턴스 배치 로직 구현 --------------------
 void AMazeActor::ClearHISMInstances()
 {
@@ -180,8 +173,10 @@ void AMazeActor::ClearHISMInstances()
 
 void AMazeActor::BuildMazeHISM(FMazeData* Maze)
 {
-	if (!Maze)
+	if (!Maze) return;
+	if (!FloorHISM->GetStaticMesh() || !BaseWallHISM->GetStaticMesh() || !GateHISM->GetStaticMesh())
 	{
+		UE_LOG(LogTemp, Warning, TEXT("HISM components have no static mesh assigned."));
 		return;
 	}
 
@@ -213,7 +208,7 @@ void AMazeActor::BuildMazeHISM(FMazeData* Maze)
 }
 
 //-------------------- 단일 셀 HISM 인스턴스 생성 및 디버그 박스 표시 --------------------
-void AMazeActor::MakeCellHISM(FCellData* Cell, const FVector& CellLocation)
+void AMazeActor::MakeCellHISM(const FCellData* Cell, const FVector& CellLocation)
 {
 	if (!Cell)
 	{
