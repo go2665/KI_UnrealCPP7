@@ -66,13 +66,16 @@ void FMazeData::WilSonAlgorithmExecute()
 	ShuffleArray(NotMazeCells);	// 랜덤으로 뽑는 것 처럼하기 위해 순서 섞기
 
 	// 윌슨 알고리즘 시작
-	FCellData* initCell = NotMazeCells.Last();	// 미로가 아닌 셀 중 하나를 초기셀로 설정
+	FCellData* initCell = NotMazeCells.Pop();	// 미로가 아닌 셀 중 하나를 초기셀로 설정하고 셀 목록에서 제거
 	initCell->bInMaze = true;	// 미로에 포함되었다고 표시
-	NotMazeCells.Pop();			// 마지막 요소(initCell)를 미로가 아닌 셀 목록에서 제거
 
 	while (NotMazeCells.Num() > 0)
 	{
 		FCellData* startCell = NotMazeCells.Pop();
+		if(startCell->bInMaze)	// 이미 미로에 포함된 셀이라면 건너뛰기
+		{
+			continue;
+		}
 		
 		FCellData* currentCell = startCell;
 		do
@@ -86,7 +89,6 @@ void FMazeData::WilSonAlgorithmExecute()
 		while (path != currentCell)	// startCell에서 currentCell까지 순서대로 진행
 		{
 			path->bInMaze = true;				// 미로에 포함시키고
-			NotMazeCells.Remove(path);			// 미로가 아닌 셀 목록에서 제거
 			ConnectCells(path, path->NextCell);	// 셀간에 벽 제거
 			path = path->NextCell;	// 다음 셀로 넘어가기
 		}
